@@ -3,6 +3,7 @@ import MiniProjectCard from "../../components/Build/MiniProjectCard";
 import MidProjectCard from "../../components/Build/MidProjectCard";
 import MajorProjectCard from "../../components/Build/MajorProjectCard";
 import { ChevronLeftIcon, ChevronRightIcon, SunIcon, MoonIcon } from "@heroicons/react/24/solid";
+import { useNavigate } from "react-router-dom";
 
 const miniProjects = [
   { id: 1, title: "Simple Calculator App", image: "/assets/cards/mini_projects/calculator.png", tags: ["Python", "Beginner"] },
@@ -41,19 +42,18 @@ const majorProjects = [
 ];
 
 const BuildPage = () => {
-  // Dark mode state and effect
   const [dark, setDark] = useState(false);
   useEffect(() => {
-  document.documentElement.classList.remove("dark");
-  if (dark) {
-    document.documentElement.classList.add("dark");
-  } else {
-    document.documentElement.classList.remove("dark");
-  }
-}, [dark]);
+    if (dark) {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  }, [dark]);
 
-  // For horizontal scroll
+  const [showPopup, setShowPopup] = useState(false);
   const scrollRef = useRef(null);
+  const navigate = useNavigate();
 
   const scroll = (direction) => {
     if (scrollRef.current) {
@@ -82,21 +82,47 @@ const BuildPage = () => {
           <a href="#" className="hover:text-blue-700">Get Started</a>
         </nav>
         <div className="flex items-center gap-3">
-          {/* Light/Dark Mode switch*/}
           <button
             onClick={() => setDark((prev) => !prev)}
             className="p-2 rounded-full bg-white dark:bg-slate-700 border border-gray-200 shadow hover:bg-gray-100 dark:hover:bg-slate-800 transition"
             aria-label="Toggle dark mode">
-            {dark ? (<SunIcon className="w-5 h-5 text-yellow-400" />) : 
-            (<MoonIcon className="w-5 h-5 text-gray-700" />)}
+            {dark ? (
+              <SunIcon className="w-5 h-5 text-yellow-400" />
+            ) : (
+              <MoonIcon className="w-5 h-5 text-gray-700" />
+            )}
           </button>
-
           <button className="px-4 py-1.5 bg-white dark:bg-slate-700 border border-gray-200 rounded-full font-semibold text-blue-700 dark:text-blue-200 hover:bg-gray-100 dark:hover:bg-slate-800 transition">
             Sign In
           </button>
-          <img src="/assets/avatar.png" alt="profile" className="w-8 h-8 rounded-full border border-gray-300"/>
+          <img
+            src="/assets/avatar.png"
+            alt="profile"
+            className="w-8 h-8 rounded-full border border-gray-300"/>
         </div>
       </header>
+
+      {/* Popup for club membership */}
+      {showPopup && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white p-8 rounded shadow-lg">
+            <h3 className="text-lg font-bold mb-2">Club Membership Required</h3>
+            <p className="mb-4">Please become a club member to access this project.</p>
+            <button
+              onClick={() => {
+                window.location.href = "https://your-razorpay-link.com";
+              }}
+              className="bg-blue-600 text-white px-4 py-2 rounded-full">
+              Pay with Razorpay
+            </button>
+            <button
+              onClick={() => setShowPopup(false)}
+              className="ml-4 text-gray-600">
+              Cancel
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 md:px-8 pt-8 pb-16">
@@ -110,22 +136,20 @@ const BuildPage = () => {
             Mini Projects
           </h2>
           <div className="flex items-center w-full">
-            {/* Left Scroll Button */}
             <button
               onClick={() => scroll("left")}
               className="mr-2 bg-white dark:bg-slate-700 rounded-full shadow p-1 hover:bg-gray-100 dark:hover:bg-slate-800"
               aria-label="Scroll left">
               <ChevronLeftIcon className="w-6 h-6 text-blue-700 dark:text-blue-200" />
             </button>
-            {/* Cards */}
             <div
               ref={scrollRef}
               className="flex overflow-x-auto pb-2 no-scrollbar gap-5 flex-1"
               style={{ scrollBehavior: "smooth" }}>
               {miniProjects.map((project) => (
-                <MiniProjectCard key={project.id} project={project} />))}
+                <MiniProjectCard key={project.id} project={project} />
+              ))}
             </div>
-            {/* Right Scroll Button */}
             <button
               onClick={() => scroll("right")}
               className="ml-2 bg-white dark:bg-slate-700 rounded-full shadow p-1 hover:bg-gray-100 dark:hover:bg-slate-800"
@@ -147,7 +171,8 @@ const BuildPage = () => {
           </h2>
           <div className="flex gap-6 flex-wrap md:flex-nowrap">
             {midProjects.map((project) => (
-              <MidProjectCard key={project.id} project={project} />))}
+              <MidProjectCard key={project.id} project={project} setShowPopup={setShowPopup} />
+            ))}
           </div>
         </section>
 
@@ -156,7 +181,8 @@ const BuildPage = () => {
           <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-3">Major Projects</h2>
           <div className="flex flex-col gap-6">
             {majorProjects.map((project) => (
-              <MajorProjectCard key={project.id} project={project} />))}
+              <MajorProjectCard key={project.id} project={project} setShowPopup={setShowPopup} />
+            ))}
           </div>
         </section>
 
@@ -166,7 +192,9 @@ const BuildPage = () => {
           <p className="text-gray-600 dark:text-gray-300 mb-4">
             Explore a collection of reusable UI components to accelerate your development process.
           </p>
-          <button className="px-5 py-2 rounded-full bg-blue-600 text-white font-semibold shadow hover:bg-blue-700 transition">
+          <button
+            className="px-5 py-2 rounded-full bg-blue-600 text-white font-semibold shadow hover:bg-blue-700 transition"
+            onClick={() => navigate("/build/ui")}>
             Explore Components &rarr;
           </button>
         </section>
@@ -174,5 +202,4 @@ const BuildPage = () => {
     </div>
   );
 };
-
 export default BuildPage;
