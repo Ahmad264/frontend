@@ -27,8 +27,10 @@ const MidProjectCard = ({ project, setShowPopup }) => {
     <div
       className="relative w-96 rounded-xl bg-white dark:bg-slate-800 shadow hover:shadow-lg transition cursor-pointer"
       onClick={handleClick}>
-      <div className="h-32 rounded-t-xl overflow-hidden bg-gray-50 dark:bg-slate-700 flex items-center justify-center">
-        <img src={project.image} alt={project.title} className="h-20 object-contain" />
+      <div className="h-48 w-full rounded-t-xl overflow-hidden bg-gray-50 dark:bg-slate-700 flex items-center justify-center">
+        <img src={project.image}
+          alt={project.title}
+          className="w-full h-full object-cover"/>
       </div>
       <div className="px-4 py-3">
         <div className="flex flex-wrap gap-2 mb-2">
