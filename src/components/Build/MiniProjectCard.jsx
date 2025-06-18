@@ -14,11 +14,11 @@ const MiniProjectCard = ({ project }) => {
     <div
       className="flex-none w-60 rounded-xl bg-white dark:bg-slate-800 shadow hover:shadow-lg transition cursor-pointer"
       onClick={() => navigate(`/build/project/${project.id}`)}>
-      <div className="h-28 flex items-center justify-center rounded-t-xl overflow-hidden bg-gray-50 dark:bg-slate-700">
+      <div className="h-40 w-full rounded-t-xl overflow-hidden bg-gray-50 dark:bg-slate-700">
         <img
           src={project.image}
           alt={project.title}
-          className="h-16 object-contain"/>
+          className="w-full h-full object-cover"/>
       </div>
       <div className="px-3 py-2">
         <div className="flex flex-wrap gap-2 mb-2">
