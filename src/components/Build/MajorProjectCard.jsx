@@ -1,30 +1,25 @@
-import React, { useContext } from "react";
-import { UserContext } from "../../context/UserContext";
+import React from "react";
+import { FaWhatsapp } from "react-icons/fa";
 
-const MajorProjectCard = ({ project, setShowPopup }) => {
-  const { user } = useContext(UserContext);
-  const handleBook = () => {
-    if (!user.isClubMember) {
-      setShowPopup(true);
-    } else {
-      // Log booking
-      fetch('/api/booking/log', {
-        method: 'POST',
-        body: JSON.stringify({ userId: user.id, projectId: project.id }),
-        headers: { 'Content-Type': 'application/json' }
-      });
-      // Open WhatsApp
-      window.open(`https://wa.me/91XXXXXXXXXX?text=I want to book a trainer for ${project.title}`, '_blank');
-    }
+const MajorProjectCard = ({ project }) => {
+  const handleWhatsapp = () => {
+    window.open(
+      `https://wa.me/91XXXXXXXXXX?text=I want to know more about ${project.title}`,
+      "_blank"
+    );
   };
 
   return (
-    <div className="flex flex-col md:flex-row bg-gradient-to-r from-blue-900 via-blue-800 to-blue-700 rounded-xl shadow-lg overflow-hidden">
+    <div className="relative flex flex-col md:flex-row bg-gradient-to-r from-blue-900 via-blue-800 to-blue-700 rounded-2xl shadow-lg overflow-hidden">
+      {/* Club Gradient Label */}
+      <span className="absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-bold bg-gradient-to-r from-pink-400 via-purple-400 to-blue-400 text-white shadow z-10">
+        Club
+      </span>
       <div className="flex items-center justify-center bg-blue-900 md:w-1/3 w-full p-6">
         <img
           src={project.image}
           alt={project.title}
-          className="h-40 object-contain"/>
+          className="h-40 object-cover rounded-xl"/>
       </div>
       <div className="flex-1 p-6 flex flex-col justify-between">
         <div>
@@ -44,13 +39,16 @@ const MajorProjectCard = ({ project, setShowPopup }) => {
         </div>
         <div className="mt-4">
           <button
-            onClick={handleBook}
-            className="px-4 py-2 rounded-full bg-white text-blue-800 font-semibold shadow hover:bg-blue-50 transition">
-            Book Trainer
+            onClick={handleWhatsapp}
+            className="flex items-center gap-2 px-5 py-2 rounded-full bg-green-500 hover:bg-green-600 text-white font-semibold shadow transition"
+            aria-label="WhatsApp Us">
+            <FaWhatsapp className="text-lg" />
+            Consult Us
           </button>
         </div>
       </div>
     </div>
   );
 };
+
 export default MajorProjectCard;
