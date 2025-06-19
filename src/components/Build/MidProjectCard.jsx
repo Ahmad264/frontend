@@ -26,6 +26,7 @@ const MidProjectCard = ({ project, setShowPopup }) => {
     <div
       className="relative w-56 h-80 rounded-2xl bg-white dark:bg-slate-800 shadow hover:shadow-lg transition cursor-pointer flex flex-col"
       onClick={handleClick}>
+<<<<<<< HEAD
       {/* Club Gradient Label */}
       {project.locked && (
         <span className="absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-bold bg-gradient-to-r from-pink-400 via-purple-400 to-blue-400 text-white shadow">
@@ -35,6 +36,10 @@ const MidProjectCard = ({ project, setShowPopup }) => {
       <div className="h-40 w-full rounded-t-2xl overflow-hidden">
         <img
           src={project.image}
+=======
+      <div className="h-48 w-full rounded-t-xl overflow-hidden bg-gray-50 dark:bg-slate-700 flex items-center justify-center">
+        <img src={project.image}
+>>>>>>> a33c8c861b514a791cda37ed5f22fcf2f090c42c
           alt={project.title}
           className="w-full h-full object-cover"/>
       </div>
